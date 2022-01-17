@@ -1,0 +1,29 @@
+stages:
+  - lint
+  - build
+
+phpcs:
+  stage: lint
+  tags:
+    - docker
+  image: docker-01.srv.rbt:5000/drvas/php7cs
+  script:
+    - phpcs --extensions=php
+  allow_failure: false
+
+composer:
+  stage: build
+  variables:
+    NEXUS_URL: http://nexus.drvas.srv.rbt/repository/composer.drvas/packages/upload/drvas/
+    USER: anonymous
+  script:
+    - BUILD_VERSION="$(echo $CI_COMMIT_TAG|sed 's/^v//')"
+    - PACKAGE=$CI_PROJECT_NAME
+    - cd .. && zip -r $PACKAGE-$BUILD_VERSION.zip $PACKAGE/
+    - curl --user "$USER:$USER" --upload-file $PACKAGE-$BUILD_VERSION.zip http://nexus.drvas.srv.rbt/repository/composer.drvas/packages/upload/drvas/$PACKAGE/$BUILD_VERSION
+    - rm $PACKAGE-$BUILD_VERSION.zip
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  tags:
+    - dev

@@ -1,0 +1,50 @@
+{
+  "name": "drvas/l5-stimulsoft",
+  "type": "library",
+  "description": "Пакет для laravel для работы с drvas/stimulsoft",
+  "license": "MIT",
+  "require": {
+    "drvas/enum": "dev-develop",
+    "drvas/stimulsoft": "dev-develop",
+    "laravel/framework": "5.5.*",
+    "nesbot/carbon": "^1.39",
+    "ramsey/uuid": "~3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "DRVAS\\L5Stimulsoft\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "secure-http": false
+  },
+  "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "DRVAS\\L5Stimulsoft\\Providers\\L5StimulsoftServiceProvider"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "packagist": false
+    },
+    {
+      "type": "path",
+      "url": "../enum"
+    }
+  ]
+}
